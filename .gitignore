@@ -1,0 +1,35 @@
+# Build outputs
+bin/
+obj/
+out/
+publish/
+
+# User and IDE files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs and local caches
+*.log
+*.tmp
+*.cache
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+
+# Package artifacts
+*.nupkg
+*.snupkg
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Workspace/editor metadata
+.cursor/

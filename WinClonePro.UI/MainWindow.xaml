@@ -1,0 +1,44 @@
+<Window x:Class="WinClonePro.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="WinClone Pro" Height="720" Width="1100"
+        WindowStartupLocation="CenterScreen">
+    <materialDesign:DialogHost Identifier="RootDialogHost">
+        <TabControl x:Name="NavigationTabs"
+                    IsEnabled="False"
+                    SelectionChanged="OnNavigationTabsSelectionChanged">
+            <TabItem Header="Dashboard">
+                <Border Padding="24">
+                    <TextBlock Text="Preparing WinClone Pro..."
+                               Opacity="0.8"
+                               TextWrapping="Wrap" />
+                </Border>
+            </TabItem>
+            <TabItem Header="Capture">
+                <Border Padding="24">
+                    <TextBlock Text="Preparing WinClone Pro..."
+                               Opacity="0.8"
+                               TextWrapping="Wrap" />
+                </Border>
+            </TabItem>
+            <TabItem Header="Deploy">
+                <Border Padding="24">
+                    <TextBlock Text="Preparing WinClone Pro..."
+                               Opacity="0.8"
+                               TextWrapping="Wrap" />
+                </Border>
+            </TabItem>
+            <TabItem Header="Full Clone">
+                <Border Padding="24">
+                    <TextBlock Text="Preparing WinClone Pro..."
+                               Opacity="0.8"
+                               TextWrapping="Wrap" />
+                </Border>
+            </TabItem>
+        </TabControl>
+    </materialDesign:DialogHost>
+</Window>

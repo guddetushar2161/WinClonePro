@@ -1,0 +1,78 @@
+<UserControl x:Class="WinClonePro.UI.Views.BootstrapView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="360"
+             d:DesignWidth="640">
+    <Grid Background="#FFF4F6F8">
+        <Border Margin="20"
+                Padding="24"
+                CornerRadius="18"
+                Background="White"
+                BorderBrush="#FFD7DEE5"
+                BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           FontSize="24"
+                           FontWeight="SemiBold"
+                           Foreground="#FF102A43"
+                           Text="Preparing system..." />
+
+                <TextBlock Grid.Row="1"
+                           Margin="0,8,0,0"
+                           Opacity="0.78"
+                           Text="{Binding Detail}"
+                           TextWrapping="Wrap" />
+
+                <ProgressBar Grid.Row="2"
+                             Margin="0,18,0,0"
+                             Height="12"
+                             Minimum="0"
+                             Maximum="100"
+                             Value="{Binding Progress}"
+                             Foreground="#FF1D70B8"
+                             Background="#FFE7EDF3" />
+
+                <TextBlock Grid.Row="3"
+                           Margin="0,10,0,0"
+                           FontWeight="SemiBold"
+                           Foreground="#FF1D3557"
+                           Text="{Binding CurrentStep}" />
+
+                <Grid Grid.Row="4" Margin="0,22,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Extracting tools" FontWeight="Medium" />
+                    <TextBlock Grid.Row="1" Margin="0,10,0,0" Text="Checking system" FontWeight="Medium" />
+                    <TextBlock Grid.Row="2" Margin="0,10,0,0" Text="Installing components" FontWeight="Medium" />
+                    <TextBlock Grid.Row="3" Margin="0,10,0,0" Text="Finalizing" FontWeight="Medium" />
+
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding ExtractingToolsStatus}" Foreground="#FF486581" />
+                    <TextBlock Grid.Column="1" Grid.Row="1" Margin="0,10,0,0" Text="{Binding CheckingSystemStatus}" Foreground="#FF486581" />
+                    <TextBlock Grid.Column="1" Grid.Row="2" Margin="0,10,0,0" Text="{Binding InstallingComponentsStatus}" Foreground="#FF486581" />
+                    <TextBlock Grid.Column="1" Grid.Row="3" Margin="0,10,0,0" Text="{Binding FinalizingStatus}" Foreground="#FF486581" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

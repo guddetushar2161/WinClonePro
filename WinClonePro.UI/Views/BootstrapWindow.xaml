@@ -1,0 +1,92 @@
+<Window
+    x:Class="WinClonePro.UI.Views.BootstrapWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    Title="WinClone Pro"
+    Height="300"
+    Width="500"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    AllowsTransparency="True"
+    Background="Transparent"
+    ResizeMode="NoResize"
+    Topmost="True"
+    ShowInTaskbar="False">
+
+  <Border
+      CornerRadius="12"
+      Background="#FF1E1E2E"
+      BorderBrush="#FF3D5AFE"
+      BorderThickness="1.5">
+
+    <Grid Margin="40">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+
+      <StackPanel Grid.Row="0"
+                  HorizontalAlignment="Center"
+                  Margin="0,0,0,20">
+        <TextBlock
+            Text="WinClone Pro"
+            FontSize="28"
+            FontWeight="Bold"
+            Foreground="#FF3D5AFE"
+            HorizontalAlignment="Center"/>
+        <TextBlock
+            Text="Professional Windows Deployment Tool"
+            FontSize="12"
+            Foreground="#FF9E9E9E"
+            HorizontalAlignment="Center"
+            Margin="0,4,0,0"/>
+        <TextBlock
+            FontSize="11"
+            Foreground="#FF757575"
+            HorizontalAlignment="Center"
+            Margin="0,2,0,0">
+          <Hyperlink
+              NavigateUri="https://tushargudde.tech"
+              Foreground="#FF3D5AFE"
+              RequestNavigate="Hyperlink_RequestNavigate">
+            Developed by Tushar Gudde
+          </Hyperlink>
+        </TextBlock>
+      </StackPanel>
+
+      <Rectangle Grid.Row="1"/>
+
+      <TextBlock
+          Grid.Row="2"
+          x:Name="StatusText"
+          Text="Initializing..."
+          FontSize="13"
+          Foreground="#FFBDBDBD"
+          HorizontalAlignment="Center"
+          Margin="0,0,0,12"/>
+
+      <ProgressBar
+          Grid.Row="3"
+          x:Name="StartupProgress"
+          Minimum="0"
+          Maximum="100"
+          Value="0"
+          Height="4"
+          Margin="0,0,0,16"
+          Foreground="#FF3D5AFE"
+          Background="#FF2D2D3F"/>
+
+      <TextBlock
+          Grid.Row="4"
+          Text="Version 2.1.2"
+          FontSize="10"
+          Foreground="#FF424242"
+          HorizontalAlignment="Center"/>
+    </Grid>
+  </Border>
+</Window>
+

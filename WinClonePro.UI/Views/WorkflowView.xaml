@@ -1,0 +1,235 @@
+<UserControl x:Class="WinClonePro.UI.Views.WorkflowView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="900" d:DesignWidth="1100">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,12">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock FontSize="20" FontWeight="SemiBold" Text="Full Clone Workflow" Margin="0,0,12,0"/>
+                <TextBlock FontWeight="SemiBold" Opacity="0.8" Text="{Binding CurrentStepName}"/>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="{Binding OverallProgress, StringFormat={}{0}%}" Margin="0,0,12,0"/>
+            </StackPanel>
+        </DockPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Step 1 -->
+                <Border Margin="0,0,0,14" Padding="12"
+                        Visibility="Collapsed">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentStepIndex}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock FontWeight="SemiBold" FontSize="16" Text="Step 1 — Select Source Disk" Margin="0,0,0,12"/>
+                        <DataGrid ItemsSource="{Binding AvailableDisks}"
+                                  SelectedItem="{Binding SelectedSourceDisk, Mode=TwoWay}"
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="True"
+                                  SelectionMode="Single"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  Style="{StaticResource MaterialDesignDataGrid}">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsBootDisk}" Value="True">
+                                            <Setter Property="Background" Value="#55FFB300"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Model" Binding="{Binding Model}" Width="*"/>
+                                <DataGridTextColumn Header="Size" Binding="{Binding FriendlySize}" Width="120"/>
+                                <DataGridTextColumn Header="Type" Binding="{Binding MediaType}" Width="120"/>
+                                <DataGridTextColumn Header="Health" Binding="{Binding HealthBadge}" Width="120"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Step 2 -->
+                <Border Margin="0,0,0,14" Padding="12"
+                        Visibility="Collapsed">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentStepIndex}" Value="1">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock FontWeight="SemiBold" FontSize="16" Text="Step 2 — Capture Settings" Margin="0,0,0,12"/>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                            <TextBox Text="{Binding CaptureOutputFolder, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"
+                                     materialDesign:HintAssist.Hint="Output folder"/>
+                            <TextBox Text="{Binding ImageName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"
+                                     materialDesign:HintAssist.Hint="Image name"/>
+                            <ComboBox SelectedItem="{Binding SelectedCompression}">
+                                <ComboBoxItem Content="None" />
+                                <ComboBoxItem Content="Fast" />
+                                <ComboBoxItem Content="Maximum" />
+                            </ComboBox>
+                            <CheckBox Content="Verify integrity after capture" IsChecked="{Binding VerifyAfterCapture}" Margin="0,10,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Step 3 -->
+                <Border Margin="0,0,0,14" Padding="12"
+                        Visibility="Collapsed">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentStepIndex}" Value="2">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock FontWeight="SemiBold" FontSize="16" Text="Step 3 — WinPE Creation" Margin="0,0,0,12"/>
+                        <TextBox Text="{Binding WinPeOutputFolder, UpdateSourceTrigger=PropertyChanged}" 
+                                 materialDesign:HintAssist.Hint="WinPE output folder"
+                                 Margin="0,0,0,10"/>
+                        <TextBlock Opacity="0.8" Text="WinClone Pro will attempt to generate WinClonePE.iso using the Windows ADK."/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Step 4 -->
+                <Border Margin="0,0,0,14" Padding="12"
+                        Visibility="Collapsed">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentStepIndex}" Value="3">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock FontWeight="SemiBold" FontSize="16" Text="Step 4 — USB Creation" Margin="0,0,0,12"/>
+                        <TextBlock FontWeight="SemiBold" Foreground="#FFD50000" Text="Risk warning: USB creation will wipe the selected disk." Margin="0,0,0,10"/>
+                        <DataGrid ItemsSource="{Binding RemovableDisks}"
+                                  SelectedItem="{Binding SelectedUsbDisk, Mode=TwoWay}"
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="True"
+                                  SelectionMode="Single"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  Style="{StaticResource MaterialDesignDataGrid}">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsBootDisk}" Value="True">
+                                            <Setter Property="Background" Value="#55FF4D4D"/>
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Index" Binding="{Binding Index}" Width="80"/>
+                                <DataGridTextColumn Header="Model" Binding="{Binding Model}" Width="*"/>
+                                <DataGridTextColumn Header="Size" Binding="{Binding FriendlySize}" Width="140"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Step 5 -->
+                <Border Margin="0,0,0,14" Padding="12"
+                        Visibility="Collapsed">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentStepIndex}" Value="4">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock FontWeight="SemiBold" FontSize="16" Text="Step 5 — Deploy" Margin="0,0,0,12"/>
+
+                        <TextBlock Text="Select target disk (boot disk is blocked)."/>
+                        <DataGrid ItemsSource="{Binding AvailableDisks}"
+                                  SelectedItem="{Binding SelectedTargetDisk, Mode=TwoWay}"
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="True"
+                                  SelectionMode="Single"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  Style="{StaticResource MaterialDesignDataGrid}" Margin="0,10,0,10">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsBootDisk}" Value="True">
+                                            <Setter Property="Background" Value="#55FF4D4D"/>
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Index" Binding="{Binding Index}" Width="80"/>
+                                <DataGridTextColumn Header="Model" Binding="{Binding Model}" Width="*"/>
+                                <DataGridTextColumn Header="Size" Binding="{Binding FriendlySize}" Width="140"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <CheckBox Content="Inject drivers during deployment" IsChecked="{Binding InjectDrivers}" />
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0" Visibility="{Binding InjectDrivers, Converter={StaticResource BoolToVis}}">
+                            <TextBox Width="420" Text="{Binding DriverFolderPath, UpdateSourceTrigger=PropertyChanged}" 
+                                     materialDesign:HintAssist.Hint="Driver folder path"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Padding="12" Margin="0,12,0,0" CornerRadius="8" Background="{DynamicResource MaterialDesignPaper}">
+            <DockPanel LastChildFill="False">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <Button Content="Back" Command="{Binding BackCommand}" Margin="0,0,10,0"/>
+                    <Button Content="Next" Command="{Binding NextCommand}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                    <Button Content="Start Full Clone" Command="{Binding StartFullCloneCommand}"
+                            Background="#FFD32F2F" Foreground="White"
+                            Style="{StaticResource MaterialDesignRaisedButton}"/>
+                    <Button Content="Cancel" Command="{Binding CancelRunningCommand}" Margin="12,0,0,0"
+                            Visibility="{Binding IsRunning, Converter={StaticResource BoolToVis}}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>
+

@@ -1,0 +1,158 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package
+    Name="WinClone Pro"
+    Manufacturer="WinClone Pro"
+    Version="$(var.ProductVersion)"
+    UpgradeCode="8e0c0105-7f19-4edf-b8e0-623c411f91f8"
+    Language="1033"
+    Scope="perMachine"
+    InstallerVersion="500"
+    Compressed="yes">
+    <SummaryInformation Description="WinClone Pro Setup" Manufacturer="WinClone Pro" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Icon Id="WinClonePro.ico" SourceFile="$(var.BrandingDirectory)WinClonePro.ico" />
+    <Property Id="ARPPRODUCTICON" Value="WinClonePro.ico" />
+    <Property Id="ARPURLINFOABOUT" Value="https://tushargudde.tech" />
+    <Property Id="WixUnelevatedShellExecTarget" Value="[#WinCloneProExecutable]" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch WinClone Pro" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.BrandingDirectory)WixUIBanner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.BrandingDirectory)WixUIDialog.bmp" />
+
+    <CustomAction
+      Id="LaunchApplication"
+      BinaryRef="Wix4UtilCA_$(sys.BUILDARCHSHORT)"
+      DllEntry="WixUnelevatedShellExec"
+      Execute="immediate"
+      Return="ignore" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="WinClonePro">
+        <Component Id="ApplicationFiles" Guid="*">
+          <File
+            Id="WinCloneProExecutable"
+            Source="$(var.PublishedApplicationDirectory)WinClonePro.UI.exe"
+            KeyPath="yes"
+            Checksum="yes" />
+          <RemoveFolder Id="RemoveInstallFolder" Directory="INSTALLFOLDER" On="uninstall" />
+        </Component>
+        <Component Id="ApplicationShortcuts" Guid="*">
+          <Shortcut
+            Id="StartMenuShortcut"
+            Directory="ProgramMenuDir"
+            Name="WinClone Pro"
+            Description="Launch WinClone Pro"
+            WorkingDirectory="INSTALLFOLDER"
+            Target="[INSTALLFOLDER]WinClonePro.UI.exe"
+            Icon="WinClonePro.ico"
+            Advertise="no" />
+          <Shortcut
+            Id="DesktopShortcut"
+            Directory="DesktopFolder"
+            Name="WinClone Pro"
+            Description="Launch WinClone Pro"
+            WorkingDirectory="INSTALLFOLDER"
+            Target="[INSTALLFOLDER]WinClonePro.UI.exe"
+            Icon="WinClonePro.ico"
+            Advertise="no" />
+          <RemoveFolder Id="RemoveProgramMenuDir" Directory="ProgramMenuDir" On="uninstall" />
+          <RegistryValue
+            Root="HKCU"
+            Key="Software\WinClonePro"
+            Name="ShortcutsInstalled"
+            Type="integer"
+            Value="1"
+            KeyPath="yes" />
+        </Component>
+        <Component Id="CommunityToolkitMvvmFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)CommunityToolkit.Mvvm.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="HardcodetNotifyIconFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)Hardcodet.NotifyIcon.Wpf.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="MaterialDesignColorsFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)MaterialDesignColors.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="MaterialDesignThemesFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)MaterialDesignThemes.Wpf.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="DependencyInjectionAbstractionsFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)Microsoft.Extensions.DependencyInjection.Abstractions.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="DependencyInjectionFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)Microsoft.Extensions.DependencyInjection.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="XamlBehaviorsFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)Microsoft.Xaml.Behaviors.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="SerilogFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)Serilog.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="SerilogSinksFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)Serilog.Sinks.File.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="SystemCodeDomFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)System.CodeDom.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="SystemManagementFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)System.Management.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="WinCloneCoreFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)WinClonePro.Core.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="WinCloneUiAssemblyFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)WinClonePro.UI.dll" KeyPath="yes" />
+        </Component>
+        <Component Id="WinCloneUiDepsFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)WinClonePro.UI.deps.json" KeyPath="yes" />
+        </Component>
+        <Component Id="WinCloneUiRuntimeConfigFile" Guid="*">
+          <File Source="$(var.PublishedApplicationDirectory)WinClonePro.UI.runtimeconfig.json" KeyPath="yes" />
+        </Component>
+      </Directory>
+    </StandardDirectory>
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ProgramMenuDir" Name="WinClone Pro" />
+    </StandardDirectory>
+
+    <StandardDirectory Id="DesktopFolder" />
+
+    <Feature Id="MainFeature" Title="WinClone Pro" Level="1">
+      <ComponentRef Id="ApplicationFiles" />
+      <ComponentRef Id="ApplicationShortcuts" />
+      <ComponentRef Id="CommunityToolkitMvvmFile" />
+      <ComponentRef Id="HardcodetNotifyIconFile" />
+      <ComponentRef Id="MaterialDesignColorsFile" />
+      <ComponentRef Id="MaterialDesignThemesFile" />
+      <ComponentRef Id="DependencyInjectionAbstractionsFile" />
+      <ComponentRef Id="DependencyInjectionFile" />
+      <ComponentRef Id="XamlBehaviorsFile" />
+      <ComponentRef Id="SerilogFile" />
+      <ComponentRef Id="SerilogSinksFile" />
+      <ComponentRef Id="SystemCodeDomFile" />
+      <ComponentRef Id="SystemManagementFile" />
+      <ComponentRef Id="WinCloneCoreFile" />
+      <ComponentRef Id="WinCloneUiAssemblyFile" />
+      <ComponentRef Id="WinCloneUiDepsFile" />
+      <ComponentRef Id="WinCloneUiRuntimeConfigFile" />
+    </Feature>
+
+    <UIRef Id="WinClonePro_InstallDir" />
+
+    <UI>
+      <Publish
+        Dialog="WinCloneExitDialog"
+        Control="Finish"
+        Event="DoAction"
+        Value="LaunchApplication"
+        Condition="WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 AND NOT Installed"
+        Order="1" />
+    </UI>
+  </Package>
+</Wix>

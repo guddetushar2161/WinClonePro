@@ -1,0 +1,29 @@
+<Project Sdk="WixToolset.Sdk/4.0.5">
+  <PropertyGroup>
+    <OutputType>Package</OutputType>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <OutputName>WinCloneProSetup</OutputName>
+    <Cultures>en-US</Cultures>
+    <ProductVersion>2.1.2</ProductVersion>
+    <AppVersion>2.1.2.0</AppVersion>
+    <PublishProjectPath>..\WinClonePro.UI\WinClonePro.UI.csproj</PublishProjectPath>
+    <PublishedApplicationDirectory>$(MSBuildProjectDirectory)\bin\$(Configuration)\publish\win-x64\</PublishedApplicationDirectory>
+    <DefineConstants>ProductVersion=$(ProductVersion);AppVersion=$(AppVersion);PublishedApplicationDirectory=$(PublishedApplicationDirectory);BrandingDirectory=$(MSBuildProjectDirectory)\..\Assets\Branding\</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="4.0.5" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="4.0.5" />
+    <ProjectReference Include="..\WinClonePro.UI\WinClonePro.UI.csproj" />
+  </ItemGroup>
+
+  <Target Name="PublishWinCloneProApplication" AfterTargets="ResolveProjectReferences">
+    <Message Importance="high" Text="Publishing WinClone Pro payload to $(PublishedApplicationDirectory)" />
+    <RemoveDir Directories="$(PublishedApplicationDirectory)" Condition="Exists('$(PublishedApplicationDirectory)')" />
+    <MakeDir Directories="$(PublishedApplicationDirectory)" />
+    <MSBuild
+      Projects="$(PublishProjectPath)"
+      Targets="Publish"
+      Properties="Configuration=$(Configuration);RuntimeIdentifier=win-x64;SelfContained=false;PublishSingleFile=false;PublishReadyToRun=false;PublishTrimmed=false;IncludeAllContentForSelfExtract=false;IncludeNativeLibrariesForSelfExtract=false;EnableCompressionInSingleFile=false;CopyOutputSymbolsToPublishDirectory=false;PublishDir=$(PublishedApplicationDirectory)" />
+  </Target>
+</Project>
