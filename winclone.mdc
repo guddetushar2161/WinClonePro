@@ -1,0 +1,35 @@
+---
+description: WinClone Pro architecture and coding rules
+globs: ["**/*.cs", "**/*.xaml"]
+alwaysApply: true
+---
+
+# WinClone Pro Rules
+
+## Stack
+- C# 12, .NET 8, WPF, MVVM via CommunityToolkit.Mvvm
+- MaterialDesignInXAML 5.x for UI
+- Serilog for all logging (never Console.WriteLine)
+- System.Text.Json (never Newtonsoft)
+- System.Management for WMI
+- All external processes via ProcessRunner.cs only
+
+## Strict coding rules
+- All methods async/await — never .Result, never .Wait(), never Thread.Sleep()
+- All WMI property access null-coalesced: obj["Property"]?.ToString() ?? ""
+- All exceptions: try/catch → Log.Error(ex, "context {Value}", value) → surface to ViewModel
+- Never perform any destructive disk operation if DiskInfo.IsBootDisk == true
+- IProgress<int> for all progress — never update UI properties from background thread
+- No hardcoded paths — all paths from AppSettings injected via constructor
+- Double confirmation dialog required before any wipe/format operation
+- Always verify WIM integrity after every capture (DISM /Check-Image)
+
+## Architecture
+- WinClonePro.Core → services, models, interfaces (zero UI references)
+- WinClonePro.UI → views + viewmodels only
+- WinClonePro.Tests → xUnit + Moq
+
+## Output rules
+- Every file complete — zero TODOs, zero placeholders
+- Always output: interface + implementation + model + viewmodel + view + tests
+- Use [ObservableProperty] and [RelayCommand] from CommunityToolkit.Mvvm
